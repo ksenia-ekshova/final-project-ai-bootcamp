@@ -1,0 +1,26 @@
+{
+  "name": "final-project-ai-bootcamp",
+  "version": "1.0.0",
+  "description": "Final project for AI bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksenia-ekshova/final-project-ai-bootcamp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ksenia-ekshova/final-project-ai-bootcamp/issues"
+  },
+  "homepage": "https://github.com/ksenia-ekshova/final-project-ai-bootcamp#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.65.1"
+  },
+  "devDependencies": {
+    "ngrok": "^5.0.0-beta.2"
+  }
+}
