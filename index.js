@@ -1,8 +1,9 @@
+require('dotenv').config();
 const TelegramApi = require('node-telegram-bot-api')
 const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, maxCharacterOptions, gameInstructions } = require('./utils');
 const { startGameSession } = require('./gameSession');
 
-const bot = new TelegramApi(process.env.OPEN_AI_API_KEY, {polling: true})
+const bot = new TelegramApi(process.env.TELEGRAM_TOKEN, {polling: true})
 
 const gameSettings = {};
 
