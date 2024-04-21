@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 .vercel
+
+#other
+ignored
