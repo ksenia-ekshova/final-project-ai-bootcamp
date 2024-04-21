@@ -2,7 +2,7 @@ const TelegramApi = require('node-telegram-bot-api')
 const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, maxCharacterOptions, gameInstructions } = require('./utils');
 const { startGameSession } = require('./gameSession');
 
-const bot = new TelegramApi('7122495824:AAHxbk8zzT7d7A5yxwqgy_kRl8-cuDhm-gg', {polling: true})
+const bot = new TelegramApi(process.env.OPEN_AI_API_KEY, {polling: true})
 
 const gameSettings = {};
 
@@ -13,7 +13,7 @@ const spawnBot = () => {
         
         if (text === '/start') {
             await bot.sendSticker(chatId, 'https://cdn.midjourney.com/7d582fdf-8578-444d-a8c0-610aaefd6304/0_3.webp');
-            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of D&D.');
+            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games.');
         }
 
         if (text === '/instructions') {
@@ -21,7 +21,7 @@ const spawnBot = () => {
         }
 
         if (text === '/create') {
-            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);
+            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);//wb good to add disclaimer with link to models
         }
 
         if (text === 'GPT-4' || text === 'GPT-3') {
