@@ -10,9 +10,6 @@ Final project for AI bootcamp
 ## Instruction 
 https://www.marclittlemore.com/serverless-telegram-chatbot-vercel/
 
-## Bot api key for develop
-6503086881:AAHFmpTMgRexPLHNfuaF5V6H1x2015-RSWM
-
 ## Bot flow 
 ![bot-diagram](https://github.com/ksenia-ekshova/final-project-ai-bootcamp/blob/main/assets/bot-diagram.PNG)
 
