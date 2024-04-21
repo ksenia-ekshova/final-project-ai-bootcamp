@@ -24,7 +24,7 @@ const GENRES = [
 const gameInstructions = `
     How to Play,\n\n
     1. Join the Game: The [name of your bot] will be added to your Telegram group chat.\n
-    2. Scenarios: The bot will present you with short, imaginative D&D scenarios. Think about the situation and decide how your character would react.\n
+    2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying game. Think about the situation and decide how your character would react.\n
     3. Respond: Type out your response as if you were your character. What would you say? What action would you take? Be creative!\n
     4. Discuss and Build: Read other players\' responses and have fun!
     5. Collaborate: Work together to solve problems\n

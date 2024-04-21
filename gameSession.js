@@ -1,5 +1,6 @@
+require('dotenv').config();
 const OpenAI = require('openai');
-const openai = new OpenAI({ apiKey: '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' });
+const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
 
 let assistant = null;
 let thread = null;
