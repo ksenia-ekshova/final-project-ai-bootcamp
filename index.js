@@ -19,6 +19,7 @@ const spawnBot = () => {
 
         if (text === '/instructions') {
             await bot.sendMessage(chatId, gameInstructions);
+            return;
         }
 
         if (text === '/create') {
@@ -28,16 +29,19 @@ const spawnBot = () => {
         if (text === 'GPT-4' || text === 'GPT-3') {
             gameSettings[chatId] = { isGameStarted: true, gptVersion: text };
             await bot.sendMessage(chatId, 'Choose the game genre:', genresOptions);
+            return;
         }
 
         if (GENRES.includes(text)) {
             gameSettings[chatId] = { ...gameSettings[chatId], genre: text };
             await bot.sendMessage(chatId, 'The maximum length of each scenario (# letters):', maxCharacterOptions);
+            return;
         }
 
         if (MAX_CHARACTERS.includes(text)) {
             gameSettings[chatId] = { ...gameSettings[chatId], max_chars: text };
             await bot.sendMessage(chatId, 'The max rounds/turns:', maxTurnsOptions);
+            return;
         }
 
         if (MAX_TURNS.includes(text)) {
@@ -46,11 +50,13 @@ const spawnBot = () => {
             const initialGameSettingResponse = await startGameSession(gameSettings[chatId], text, true);
             gameSettings[chatId].round = 2;
             await bot.sendMessage(chatId, initialGameSettingResponse);
+            return;
         }
 
         if (gameSettings[chatId]?.isGameStarted && gameSettings[chatId]?.round && gameSettings[chatId]?.round >= 2) {
             const response = await startGameSession(gameSettings[chatId], text);
             await bot.sendMessage(chatId, response);
+            return;
         }
     });
 }
