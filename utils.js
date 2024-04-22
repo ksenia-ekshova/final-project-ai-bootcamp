@@ -76,6 +76,12 @@ const gptOptions = {
     }
 };
 
+const generateImageOptions ={
+    reply_markup: {
+        keyboard: [['generate environment image', 'continue the story']]
+    }
+}
+
 const genresOptions = {
     reply_markup: {
         keyboard: generateGenresOptions()
@@ -100,6 +106,7 @@ module.exports = {
     MAX_TURNS,
     gameInstructions,
     gptOptions,
+    generateImageOptions,
     genresOptions,
     maxCharacterOptions,
     maxTurnsOptions

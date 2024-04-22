@@ -1,7 +1,7 @@
 require('dotenv').config();
 const TelegramApi = require('node-telegram-bot-api')
-const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, maxCharacterOptions, gameInstructions } = require('./utils');
-const { startGameSession } = require('./gameSession');
+const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, generateImageOptions, maxCharacterOptions, gameInstructions } = require('./utils');
+const { startGameSession, generateImageResponse } = require('./gameSession');
 
 const bot = new TelegramApi(process.env.TELEGRAM_TOKEN, {polling: true})
 
@@ -52,10 +52,20 @@ const spawnBot = () => {
             await bot.sendMessage(chatId, initialGameSettingResponse);
             return;
         }
-
+        
         if (gameSettings[chatId]?.isGameStarted && gameSettings[chatId]?.round && gameSettings[chatId]?.round >= 2) {
             const response = await startGameSession(gameSettings[chatId], text);
             await bot.sendMessage(chatId, response);
+            await bot.sendMessage(chatId,"If you want the image of the environment, you must select it." ,generateImageOptions);
+
+            if(text === 'generate environment image'){
+                await bot.sendMessage(chatId, `Great. generate the image...`);
+                const imageGenetate = await generateImageResponse(response);
+                await bot.sendPhoto(chatId, imageGenetate.data[0].url)
+            }
+            if(text === 'continue the story'){
+                await bot.sendMessage(chatId, `Great. continue the story`);
+            }
             return;
         }
     });
