@@ -78,7 +78,7 @@ const gptOptions = {
 
 const generateImageOptions ={
     reply_markup: {
-        keyboard: [['generate environment image', 'continue the story']]
+        keyboard: [['Yes', 'No']]
     }
 }
 
