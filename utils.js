@@ -21,6 +21,17 @@ const GENRES = [
     'Riddles'
 ];
 
+const LANGUAGES = [
+    'Chinese',
+    'Spanish',
+    'English',
+    'Russian',
+    'Hindi',
+    'Arabic',
+    'Japanese',
+    'Kazakh'
+];
+
 const gameInstructions = `
     How to Play,\n\n
     1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n
@@ -62,6 +73,14 @@ const generateGenresOptions = () => {
     return rows;
 }
 
+const generateLanguagesOptions = () => {
+    const rows = [];
+    for (let i = 0; i < LANGUAGES.length; i += 3) {
+        rows.push(LANGUAGES.slice(i, i + 3));
+    }
+    return rows;
+}
+
 const generateMaxTurnsOptions = () => {
     const rows = [];
     for (let i = 0; i < MAX_TURNS.length; i += 3) {
@@ -69,6 +88,12 @@ const generateMaxTurnsOptions = () => {
     }
     return rows;
 }
+
+const languageOptions = {
+    reply_markup: {
+        keyboard: generateLanguagesOptions()
+    }
+};
 
 const gptOptions = {
     reply_markup: {
@@ -96,9 +121,11 @@ const maxTurnsOptions = {
 
 module.exports = {
     GENRES,
+    LANGUAGES,
     MAX_CHARACTERS,
     MAX_TURNS,
     gameInstructions,
+    languageOptions,
     gptOptions,
     genresOptions,
     maxCharacterOptions,

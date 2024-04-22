@@ -1,6 +1,6 @@
 require('dotenv').config();
 const TelegramApi = require('node-telegram-bot-api')
-const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, maxCharacterOptions, gameInstructions } = require('./utils');
+const { MAX_CHARACTERS, MAX_TURNS, LANGUAGES, GENRES, maxTurnsOptions, languageOptions, genresOptions, gptOptions, maxCharacterOptions, gameInstructions } = require('./utils');
 const { startGameSession } = require('./gameSession');
 
 const bot = new TelegramApi(process.env.TELEGRAM_TOKEN, {polling: true})
@@ -23,9 +23,16 @@ const spawnBot = () => {
         }
 
         if (text === '/create') {
-            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);//wb good to add disclaimer with link to models
+            await bot.sendMessage(chatId, 'Choose your language:', languageOptions);
+            return;
         }
 
+        if (LANGUAGES.includes(text)) {
+            gameSettings[chatId] = { isGameStarted: true, language: text };
+            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);//wb good to add disclaimer with link to models
+            return;
+        }
+       
         if (text === 'GPT-4' || text === 'GPT-3') {
             gameSettings[chatId] = { isGameStarted: true, gptVersion: text };
             await bot.sendMessage(chatId, 'Choose the game genre:', genresOptions);
