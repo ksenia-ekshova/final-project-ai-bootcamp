@@ -25,7 +25,7 @@ const spawnBot = () => {
         if (text === '/create') {
             await bot.sendMessage(chatId, 'Choose your language:', languageOptions);
             return;
-        }
+        }//add posibility to create custom answer with free text
 
         if (LANGUAGES.includes(text)) {
             gameSettings[chatId] = { isGameStarted: true, language: text };
@@ -37,7 +37,7 @@ const spawnBot = () => {
             gameSettings[chatId] = { isGameStarted: true, gptVersion: text };
             await bot.sendMessage(chatId, 'Choose the game genre:', genresOptions);
             return;
-        }
+        }//add posibility to create custom answer with free text
 
         if (GENRES.includes(text)) {
             gameSettings[chatId] = { ...gameSettings[chatId], genre: text };
