@@ -14,7 +14,7 @@ const spawnBot = () => {
         
         if (text === '/start') {
             await bot.sendSticker(chatId, 'https://cdn.midjourney.com/7d582fdf-8578-444d-a8c0-610aaefd6304/0_3.webp');
-            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games.');
+            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games. Enter "/instructions" to get the commands needed for playing');
         }
 
         if (text === '/instructions') {
