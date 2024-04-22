@@ -60,7 +60,7 @@ const spawnBot = () => {
 
             if (generate_image_state) {
                 if (text === 'Yes') {
-                    await bot.sendMessage(chatId, `Great. generate the image...`);
+                    await bot.sendMessage(chatId, `Great. generating the image...`);
                     const imageGenetate = await generateImageResponse(image_promt);
                     await bot.sendPhoto(chatId, imageGenetate.data[0].url)
                 }
