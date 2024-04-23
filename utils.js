@@ -21,16 +21,7 @@ const GENRES = [
   "Riddles",
 ];
 
-const LANGUAGES = [
-  "Chinese",
-  "Spanish",
-  "English",
-  "Russian",
-  "Hindi",
-  "Arabic",
-  "Japanese",
-  "Kazakh",
-];
+const LANGUAGES = ["English", "Chinese"];
 
 const gameInstructions = `
     How to Play,\n\n
@@ -48,9 +39,9 @@ const gameInstructions = `
     3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
 `;
 
-const MAX_CHARACTERS = ["250", "500", "750", "1000"];
+const MAX_CHARACTERS = ["250", "1000"];
 
-const MAX_TURNS = ["10", "15", "20", "25", "30", "35", "40"];
+const MAX_TURNS = ["5", "10"];
 
 const generateGenresOptions = () => {
   const rows = [];
