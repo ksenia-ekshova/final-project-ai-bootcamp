@@ -101,6 +101,12 @@ const gptOptions = {
     }
 };
 
+const generateImageOptions ={
+    reply_markup: {
+        keyboard: [['Yes', 'No']]
+    }
+}
+
 const genresOptions = {
     reply_markup: {
         keyboard: generateGenresOptions()
@@ -127,6 +133,7 @@ module.exports = {
     gameInstructions,
     languageOptions,
     gptOptions,
+    generateImageOptions,
     genresOptions,
     maxCharacterOptions,
     maxTurnsOptions

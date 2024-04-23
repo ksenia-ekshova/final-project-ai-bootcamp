@@ -79,6 +79,17 @@ const startGameSession = async (gameSettings, userPrompt, isFirstTurn = false) =
     }
 };
 
+async function generateImageResponse(prompt) {
+    const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
+    const response = await openai.images.generate({
+        model: "dall-e-2",
+        prompt: prompt,
+        n: 1,
+        size:'256x256',
+      });
+    return response ;
+}
+
 module.exports = {
-    startGameSession,
+    startGameSession,generateImageResponse
 };
