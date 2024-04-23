@@ -21,6 +21,15 @@ const GENRES = [
   "Riddles",
 ];
 
+const LANGUAGES = [
+    "Chinese",
+    "English",
+    "Spanish",
+    "Russian",
+    "Japanese",
+    "Kazakh"
+  ];
+
 const gameInstructions = `
     How to Play,\n\n
     1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n
@@ -37,7 +46,7 @@ const gameInstructions = `
     3. Have Fun: It\'s a game! Enjoy the world of Roleplaying games and let the stories unfold.
 `;
 
-const MAX_TURNS = ["10", "20", "30"];
+const MAX_TURNS = ["5", "10", "20", "30"];
 
 const generateGenresOptions = () => {
   const rows = [];
@@ -47,6 +56,13 @@ const generateGenresOptions = () => {
   return rows;
 };
 
+const generateLanguageOptions = () => {
+    const rows = [];
+    for (let i = 0; i < LANGUAGES.length; i += 3) {
+      rows.push(LANGUAGES.slice(i, i + 3));
+    }
+    return rows;
+  };
 const generateMaxTurnsOptions = () => {
   const rows = [];
   for (let i = 0; i < MAX_TURNS.length; i += 3) {
@@ -67,6 +83,18 @@ const genresOptions = {
   },
 };
 
+const languageOptions = {
+    reply_markup: {
+      keyboard: generateLanguageOptions(),
+    },
+  };
+
+const gptOptions = {
+    reply_markup: {
+        keyboard: [['GPT-4', 'GPT-3']]
+    }
+};
+
 const maxTurnsOptions = {
   reply_markup: {
     keyboard: generateMaxTurnsOptions(),
@@ -75,9 +103,12 @@ const maxTurnsOptions = {
 
 module.exports = {
   GENRES,
+  LANGUAGES,
   MAX_TURNS,
   gameInstructions,
   generateImageOptions,
   genresOptions,
+  languageOptions,
   maxTurnsOptions,
+  gptOptions
 };

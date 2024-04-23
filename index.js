@@ -3,8 +3,11 @@ const TelegramApi = require("node-telegram-bot-api");
 
 const {
   MAX_TURNS,
+  LANGUAGES,
   GENRES,
   maxTurnsOptions,
+  gptOptions,
+  languageOptions,
   genresOptions,
   generateImageOptions,
   gameInstructions,
@@ -48,10 +51,24 @@ const spawnBot = () => {
       gameSettings[chatId] = {
         genre: text,
         isGameStarted: true,
-        language: "English",
-        gptVersion: "GPT-3",
-        max_chars: "1000",
+        language: "English", //default
+        gptVersion: "GPT-3", //default
+        max_chars: "1000",   //default
       };
+      await bot.sendMessage(chatId, 'Choose GPT version:', gptOptions);
+      return;
+    }
+
+    if (text === 'GPT-4' || text === 'GPT-3') {
+        gameSettings[chatId] = { gptVersion: text };
+        await bot.sendMessage(chatId, 'Choose the game language:', languageOptions);
+        return;
+    }
+
+    if (LANGUAGES.includes(text)) {
+        gameSettings[chatId] = {
+            language: text,
+          };
       await bot.sendMessage(chatId, "The max rounds/turns:", maxTurnsOptions);
       return;
     }
