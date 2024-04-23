@@ -15,7 +15,13 @@ const handleOpenAiRequest = async (threadId, assistantId) => {
   if (run.status === "completed") {
     const messages = await openai.beta.threads.messages.list(run.thread_id);
 
-    result = messages.data[0]?.content?.[0]?.text?.value ?? "";
+    for (const dataItem of messages.data) {
+      result = dataItem.content?.[0]?.text?.value ?? "";
+      console.log(result);
+      console.log("_____________");
+    }
+
+    result = messages.data[0].content?.[0]?.text?.value ?? "";
   } else {
     result = "The game session has been interrupted. Please try again.";
   }
@@ -69,6 +75,7 @@ const startGameSession = async (
     if (!thread || !assistant) {
       return "rofl";
     }
+    console.log("********Hello there********");
     const message = await openai.beta.threads.messages.create(
       thread.id,
       {

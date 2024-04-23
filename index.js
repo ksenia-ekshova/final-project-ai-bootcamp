@@ -2,16 +2,11 @@ require("dotenv").config();
 const TelegramApi = require("node-telegram-bot-api");
 
 const {
-  MAX_CHARACTERS,
   MAX_TURNS,
-  LANGUAGES,
   GENRES,
   maxTurnsOptions,
-  languageOptions,
   genresOptions,
-  gptOptions,
   generateImageOptions,
-  maxCharacterOptions,
   gameInstructions,
 } = require("./utils");
 const { startGameSession, generateImageResponse } = require("./gameSession");
@@ -51,8 +46,8 @@ const spawnBot = () => {
 
     if (GENRES.includes(text)) {
       gameSettings[chatId] = {
-        ...gameSettings[chatId],
         genre: text,
+        isGameStarted: true,
         language: "English",
         gptVersion: "GPT-3",
         max_chars: "1000",
