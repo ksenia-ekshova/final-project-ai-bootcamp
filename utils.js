@@ -21,8 +21,6 @@ const GENRES = [
   "Riddles",
 ];
 
-const LANGUAGES = ["English", "Chinese"];
-
 const gameInstructions = `
     How to Play,\n\n
     1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n
@@ -39,8 +37,6 @@ const gameInstructions = `
     3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
 `;
 
-const MAX_CHARACTERS = ["250", "1000"];
-
 const MAX_TURNS = ["5", "10"];
 
 const generateGenresOptions = () => {
@@ -51,32 +47,12 @@ const generateGenresOptions = () => {
   return rows;
 };
 
-const generateLanguagesOptions = () => {
-  const rows = [];
-  for (let i = 0; i < LANGUAGES.length; i += 3) {
-    rows.push(LANGUAGES.slice(i, i + 3));
-  }
-  return rows;
-};
-
 const generateMaxTurnsOptions = () => {
   const rows = [];
   for (let i = 0; i < MAX_TURNS.length; i += 3) {
     rows.push(MAX_TURNS.slice(i, i + 3));
   }
   return rows;
-};
-
-const languageOptions = {
-  reply_markup: {
-    keyboard: generateLanguagesOptions(),
-  },
-};
-
-const gptOptions = {
-  reply_markup: {
-    keyboard: [["GPT-4", "GPT-3"]],
-  },
 };
 
 const generateImageOptions = {
@@ -91,12 +67,6 @@ const genresOptions = {
   },
 };
 
-const maxCharacterOptions = {
-  reply_markup: {
-    keyboard: [MAX_CHARACTERS],
-  },
-};
-
 const maxTurnsOptions = {
   reply_markup: {
     keyboard: generateMaxTurnsOptions(),
@@ -105,14 +75,9 @@ const maxTurnsOptions = {
 
 module.exports = {
   GENRES,
-  LANGUAGES,
-  MAX_CHARACTERS,
   MAX_TURNS,
   gameInstructions,
-  languageOptions,
-  gptOptions,
   generateImageOptions,
   genresOptions,
-  maxCharacterOptions,
   maxTurnsOptions,
 };

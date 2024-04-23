@@ -45,34 +45,18 @@ const spawnBot = () => {
     }
 
     if (text === "/create") {
-      await bot.sendMessage(chatId, "Choose your language:", languageOptions);
-      return;
-    } //add posibility to create custom answer with free text
-
-    if (LANGUAGES.includes(text)) {
-      gameSettings[chatId] = { isGameStarted: true, language: text };
-      await bot.sendMessage(chatId, "Choose your GPT version:", gptOptions); //wb good to add disclaimer with link to models
-      return;
-    }
-
-    if (text === "GPT-4" || text === "GPT-3") {
-      gameSettings[chatId] = { isGameStarted: true, gptVersion: text };
       await bot.sendMessage(chatId, "Choose the game genre:", genresOptions);
       return;
     } //add posibility to create custom answer with free text
 
     if (GENRES.includes(text)) {
-      gameSettings[chatId] = { ...gameSettings[chatId], genre: text };
-      await bot.sendMessage(
-        chatId,
-        "The maximum length of each scenario (# letters):",
-        maxCharacterOptions
-      );
-      return;
-    }
-
-    if (MAX_CHARACTERS.includes(text)) {
-      gameSettings[chatId] = { ...gameSettings[chatId], max_chars: text };
+      gameSettings[chatId] = {
+        ...gameSettings[chatId],
+        genre: text,
+        language: "English",
+        gptVersion: "GPT-3",
+        max_chars: "1000",
+      };
       await bot.sendMessage(chatId, "The max rounds/turns:", maxTurnsOptions);
       return;
     }
