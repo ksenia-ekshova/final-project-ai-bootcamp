@@ -1,35 +1,35 @@
 const GENRES = [
-    'Fantasy',
-    'Post-apocalypse',
-    'Cthulhu',
-    'Dungeons',
-    'Noir detective',
-    'Adventure',
-    'Magic',
-    'Sword and Sorcery',
-    'Dragons',
-    'Medieval',
-    'Monsters', 
-    'Elves',
-    'Dwarves',
-    'Wizards',
-    'Knights',
-    'Tales',
-    'Legendary',
-    'Mythical',
-    'Mystical',
-    'Riddles'
+  "Fantasy",
+  "Post-apocalypse",
+  "Cthulhu",
+  "Dungeons",
+  "Noir detective",
+  "Adventure",
+  "Magic",
+  "Sword and Sorcery",
+  "Dragons",
+  "Medieval",
+  "Monsters",
+  "Elves",
+  "Dwarves",
+  "Wizards",
+  "Knights",
+  "Tales",
+  "Legendary",
+  "Mythical",
+  "Mystical",
+  "Riddles",
 ];
 
 const LANGUAGES = [
-    'Chinese',
-    'Spanish',
-    'English',
-    'Russian',
-    'Hindi',
-    'Arabic',
-    'Japanese',
-    'Kazakh'
+  "Chinese",
+  "Spanish",
+  "English",
+  "Russian",
+  "Hindi",
+  "Arabic",
+  "Japanese",
+  "Kazakh",
 ];
 
 const gameInstructions = `
@@ -48,93 +48,80 @@ const gameInstructions = `
     3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
 `;
 
-const MAX_CHARACTERS = [
-    '250',
-    '500',
-    '750',
-    '1000'
-];
+const MAX_CHARACTERS = ["250", "500", "750", "1000"];
 
-const MAX_TURNS = [
-    '10',
-    '15',
-    '20',
-    '25',
-    '30',
-    '35',
-    '40',
-];
+const MAX_TURNS = ["10", "15", "20", "25", "30", "35", "40"];
 
 const generateGenresOptions = () => {
-    const rows = [];
-    for (let i = 0; i < GENRES.length; i += 3) {
-        rows.push(GENRES.slice(i, i + 3));
-    }
-    return rows;
-}
+  const rows = [];
+  for (let i = 0; i < GENRES.length; i += 3) {
+    rows.push(GENRES.slice(i, i + 3));
+  }
+  return rows;
+};
 
 const generateLanguagesOptions = () => {
-    const rows = [];
-    for (let i = 0; i < LANGUAGES.length; i += 3) {
-        rows.push(LANGUAGES.slice(i, i + 3));
-    }
-    return rows;
-}
+  const rows = [];
+  for (let i = 0; i < LANGUAGES.length; i += 3) {
+    rows.push(LANGUAGES.slice(i, i + 3));
+  }
+  return rows;
+};
 
 const generateMaxTurnsOptions = () => {
-    const rows = [];
-    for (let i = 0; i < MAX_TURNS.length; i += 3) {
-        rows.push(MAX_TURNS.slice(i, i + 3));
-    }
-    return rows;
-}
+  const rows = [];
+  for (let i = 0; i < MAX_TURNS.length; i += 3) {
+    rows.push(MAX_TURNS.slice(i, i + 3));
+  }
+  return rows;
+};
 
 const languageOptions = {
-    reply_markup: {
-        keyboard: generateLanguagesOptions()
-    }
+  reply_markup: {
+    keyboard: generateLanguagesOptions(),
+  },
 };
 
 const gptOptions = {
-    reply_markup: {
-        keyboard: [['GPT-4', 'GPT-3']]
-    }
+  reply_markup: {
+    keyboard: [["GPT-4", "GPT-3"]],
+  },
 };
 
-const generateImageOptions ={
-    reply_markup: {
-        keyboard: [['Yes', 'No']]
-    }
-}
+const generateImageOptions = {
+  reply_markup: {
+    keyboard: [["Yes", "No"]],
+  },
+};
 
 const genresOptions = {
-    reply_markup: {
-        keyboard: generateGenresOptions()
-    }
+  reply_markup: {
+    keyboard: generateGenresOptions(),
+  },
 };
 
 const maxCharacterOptions = {
-    reply_markup: {
-        keyboard: [MAX_CHARACTERS]
-    }
+  reply_markup: {
+    keyboard: [MAX_CHARACTERS],
+  },
 };
 
 const maxTurnsOptions = {
-    reply_markup: {
-        keyboard: generateMaxTurnsOptions()
-    }
+  reply_markup: {
+    keyboard: generateMaxTurnsOptions(),
+  },
 };
 
 module.exports = {
-    GENRES,
-    LANGUAGES,
-    MAX_CHARACTERS,
-    MAX_TURNS,
-    gameInstructions,
-    languageOptions,
-    gptOptions,
-    generateImageOptions,
-    genresOptions,
-    maxCharacterOptions,
-    maxTurnsOptions
+  GENRES,
+  LANGUAGES,
+  MAX_CHARACTERS,
+  MAX_TURNS,
+  gameInstructions,
+  languageOptions,
+  gptOptions,
+  generateImageOptions,
+  genresOptions,
+  maxCharacterOptions,
+  maxTurnsOptions,
 };
