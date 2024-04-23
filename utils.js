@@ -1,19 +1,19 @@
 const GENRES = [
     'Fantasy',
+    'Post-apocalypse',
+    'Cthulhu',
+    'Dungeons',
+    'Noir detective',
     'Adventure',
     'Magic',
     'Sword and Sorcery',
     'Dragons',
     'Medieval',
-    'Quest',
-    'Role-playing',
-    'Monsters',
-    'Dungeons',
+    'Monsters', 
     'Elves',
     'Dwarves',
     'Wizards',
     'Knights',
-    'Lore',
     'Tales',
     'Legendary',
     'Mythical',
@@ -21,9 +21,20 @@ const GENRES = [
     'Riddles'
 ];
 
+const LANGUAGES = [
+    'Chinese',
+    'Spanish',
+    'English',
+    'Russian',
+    'Hindi',
+    'Arabic',
+    'Japanese',
+    'Kazakh'
+];
+
 const gameInstructions = `
     How to Play,\n\n
-    1. Join the Game: The [name of your bot] will be added to your Telegram group chat.\n
+    1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n
     2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying game. Think about the situation and decide how your character would react.\n
     3. Respond: Type out your response as if you were your character. What would you say? What action would you take? Be creative!\n
     4. Discuss and Build: Read other players\' responses and have fun!
@@ -62,6 +73,14 @@ const generateGenresOptions = () => {
     return rows;
 }
 
+const generateLanguagesOptions = () => {
+    const rows = [];
+    for (let i = 0; i < LANGUAGES.length; i += 3) {
+        rows.push(LANGUAGES.slice(i, i + 3));
+    }
+    return rows;
+}
+
 const generateMaxTurnsOptions = () => {
     const rows = [];
     for (let i = 0; i < MAX_TURNS.length; i += 3) {
@@ -69,6 +88,12 @@ const generateMaxTurnsOptions = () => {
     }
     return rows;
 }
+
+const languageOptions = {
+    reply_markup: {
+        keyboard: generateLanguagesOptions()
+    }
+};
 
 const gptOptions = {
     reply_markup: {
@@ -102,9 +127,11 @@ const maxTurnsOptions = {
 
 module.exports = {
     GENRES,
+    LANGUAGES,
     MAX_CHARACTERS,
     MAX_TURNS,
     gameInstructions,
+    languageOptions,
     gptOptions,
     generateImageOptions,
     genresOptions,

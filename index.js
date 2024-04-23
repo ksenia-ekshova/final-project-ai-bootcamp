@@ -1,6 +1,7 @@
 require('dotenv').config();
 const TelegramApi = require('node-telegram-bot-api')
-const { MAX_CHARACTERS, MAX_TURNS, GENRES, maxTurnsOptions, genresOptions, gptOptions, generateImageOptions, maxCharacterOptions, gameInstructions } = require('./utils');
+
+const { MAX_CHARACTERS, MAX_TURNS, LANGUAGES, GENRES, maxTurnsOptions, languageOptions, genresOptions, gptOptions,generateImageOptions, maxCharacterOptions, gameInstructions } = require('./utils');
 const { startGameSession, generateImageResponse } = require('./gameSession');
 
 const bot = new TelegramApi(process.env.TELEGRAM_TOKEN, {polling: true})
@@ -17,7 +18,7 @@ const spawnBot = () => {
 
         if (text === '/start') {
             await bot.sendSticker(chatId, 'https://cdn.midjourney.com/7d582fdf-8578-444d-a8c0-610aaefd6304/0_3.webp');
-            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games.');
+            await bot.sendMessage(chatId, 'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games. Enter "/instructions" to get the commands needed for playing');
         }
 
         if (text === '/instructions') {
@@ -26,14 +27,21 @@ const spawnBot = () => {
         }
 
         if (text === '/create') {
-            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);//wb good to add disclaimer with link to models
-        }
+            await bot.sendMessage(chatId, 'Choose your language:', languageOptions);
+            return;
+        }//add posibility to create custom answer with free text
 
+        if (LANGUAGES.includes(text)) {
+            gameSettings[chatId] = { isGameStarted: true, language: text };
+            await bot.sendMessage(chatId, 'Choose your GPT version:', gptOptions);//wb good to add disclaimer with link to models
+            return;
+        }
+       
         if (text === 'GPT-4' || text === 'GPT-3') {
             gameSettings[chatId] = { isGameStarted: true, gptVersion: text };
             await bot.sendMessage(chatId, 'Choose the game genre:', genresOptions);
             return;
-        }
+        }//add posibility to create custom answer with free text
 
         if (GENRES.includes(text)) {
             gameSettings[chatId] = { ...gameSettings[chatId], genre: text };
