@@ -1,11 +1,12 @@
 const GENRES = [
   "Fantasy",
   "Post-apocalypse",
-  "Cthulhu",
+  "Cthulhu Universe",
   "Dungeons",
   "Noir detective",
   "Adventure",
   "Magic",
+  "School of magic",
   "Sword and Sorcery",
   "Dragons",
   "Medieval",
@@ -19,6 +20,7 @@ const GENRES = [
   "Mythical",
   "Mystical",
   "Riddles",
+  "Romance"
 ];
 
 const LANGUAGES = [

@@ -19,4 +19,4 @@ https://www.marclittlemore.com/serverless-telegram-chatbot-vercel/
 3. Fill TELEGRAM_TOKEN and OPEN_AI_API_KEY with your values
 4. Open new terminal and run npm install, and after run npm start
 5. Open chat with your bot
-6. Write /start and /create 
+6. Write "/start" and "/create"
