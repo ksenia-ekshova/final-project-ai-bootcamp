@@ -34,10 +34,10 @@ const gameInstructions = `
     \n\n
     1. Be Imaginative: Let your creativity shine! The more unique the response, the more fun the game will be.\n
     2. Respect Others: Be kind and consider how your actions affect other players\' characters.\n
-    3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
+    3. Have Fun: It\'s a game! Enjoy the world of Roleplaying games and let the stories unfold.
 `;
 
-const MAX_TURNS = ["5", "10"];
+const MAX_TURNS = ["10", "20", "30"];
 
 const generateGenresOptions = () => {
   const rows = [];
