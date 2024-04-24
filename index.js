@@ -26,7 +26,7 @@ const spawnBot = () => {
     if (text === "/start") {
       await bot.sendSticker(
         chatId,
-        "https://cdn.midjourney.com/7d582fdf-8578-444d-a8c0-610aaefd6304/0_3.webp"
+        "https://cdn.discordapp.com/attachments/1224774028342857831/1232760305189257226/photo_2024-04-24_23-02-18.webp?ex=662aa100&is=66294f80&hm=0648917b2fb6e54dd59f37e033b99f5bfc353d303a09d0eb71ca769a6b2455cc&"
       );
       await bot.sendMessage(
         chatId,
@@ -54,10 +54,15 @@ const spawnBot = () => {
     if (text.startsWith("GPT-3") || text.startsWith("GPT-4")) {
       gameSettings[chatId] = {
         isGameStarted: true,
-        language: "English",
         gptVersion: text.substring(0, 5),
         max_chars: "750",
       };
+      await bot.sendMessage(chatId, "Choose the language:", languageOptions);
+      return;
+    }
+
+    if (LANGUAGES.includes(text)) {
+      gameSettings[chatId].language = text;
       await bot.sendMessage(chatId, "Choose the game genre:", genresOptions);
       return;
     }
