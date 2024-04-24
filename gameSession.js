@@ -51,23 +51,18 @@ const startGameSession = async (
                 If the player chooses a bad answer, player may die and then the game will end.
                 Use a speaking style that suits the setting.
                 Each time you would be notified with the current turn/round number.
+                Make sure to finish the story within ${gameSettings.turns} rounds.
+                Don't ask the user anything after the game finishes. Just congratulate.
             `,
       tools: [{ type: "code_interpreter" }],
       model:
         gameSettings.gptVersion === "GPT-4" ? "gpt-4-turbo" : "gpt-3.5-turbo",
     });
     thread = await openai.beta.threads.create();
-    const message = await openai.beta.threads.messages.create(
-      thread.id,
-      {
-        role: "assistant",
-        content: "Turn 1. Generate the initial story for the game.",
-      },
-      {
-        role: "user",
-        content: "We are ready to start the game.",
-      }
-    );
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "assistant",
+      content: "Round 1. Generate the initial story for the game.",
+    });
 
     const response = await handleOpenAiRequest(thread.id, assistant.id);
     return response;
@@ -76,17 +71,16 @@ const startGameSession = async (
       return "rofl";
     }
     console.log("********Hello there********");
-    const message = await openai.beta.threads.messages.create(
-      thread.id,
-      {
-        role: "assistant",
-        content: `Turn or round number ${gameSettings.round}`,
-      },
-      {
-        role: "user",
-        content: userPrompt,
-      }
-    );
+    console.log("Total rounds", gameSettings.turns);
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "assistant",
+      content: `Round ${gameSettings.round}`,
+    });
+
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "user",
+      content: userPrompt,
+    });
 
     const response = await handleOpenAiRequest(thread.id, assistant.id);
     return response;
@@ -95,11 +89,14 @@ const startGameSession = async (
 
 async function generateImageResponse(prompt) {
   const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
+  console.log("~~~~~~~~~~~~");
+  console.log(prompt);
+  console.log("~~~~~~~~~~~~");
   const response = await openai.images.generate({
     model: "dall-e-2",
-    prompt: prompt,
+    prompt,
     n: 1,
-    size: "256x256",
+    size: "512x512",
   });
   return response;
 }

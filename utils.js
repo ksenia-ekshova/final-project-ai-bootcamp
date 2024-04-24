@@ -37,7 +37,7 @@ const gameInstructions = `
     3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
 `;
 
-const MAX_TURNS = ["5", "10"];
+const MAX_TURNS = ["5", "10", "20"];
 
 const generateGenresOptions = () => {
   const rows = [];
@@ -53,12 +53,6 @@ const generateMaxTurnsOptions = () => {
     rows.push(MAX_TURNS.slice(i, i + 3));
   }
   return rows;
-};
-
-const generateImageOptions = {
-  reply_markup: {
-    keyboard: [["Yes", "No"]],
-  },
 };
 
 const genresOptions = {
@@ -77,7 +71,6 @@ module.exports = {
   GENRES,
   MAX_TURNS,
   gameInstructions,
-  generateImageOptions,
   genresOptions,
   maxTurnsOptions,
 };

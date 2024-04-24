@@ -6,7 +6,6 @@ const {
   GENRES,
   maxTurnsOptions,
   genresOptions,
-  generateImageOptions,
   gameInstructions,
 } = require("./utils");
 const { startGameSession, generateImageResponse } = require("./gameSession");
@@ -14,9 +13,6 @@ const { startGameSession, generateImageResponse } = require("./gameSession");
 const bot = new TelegramApi(process.env.TELEGRAM_TOKEN, { polling: true });
 
 const gameSettings = {};
-
-let generate_image_state = false;
-let image_promt = null;
 
 const spawnBot = () => {
   bot.on("message", async (msg) => {
@@ -50,7 +46,7 @@ const spawnBot = () => {
         isGameStarted: true,
         language: "English",
         gptVersion: "GPT-3",
-        max_chars: "1000",
+        max_chars: "750",
       };
       await bot.sendMessage(chatId, "The max rounds/turns:", maxTurnsOptions);
       return;
@@ -64,8 +60,14 @@ const spawnBot = () => {
         text,
         true
       );
-      gameSettings[chatId].round = 2;
+      const imageGenerate = await generateImageResponse(
+        initialGameSettingResponse
+      );
+      await bot.sendPhoto(chatId, imageGenerate.data[0].url);
       await bot.sendMessage(chatId, initialGameSettingResponse);
+
+      gameSettings[chatId].round = 2;
+
       return;
     }
 
@@ -74,23 +76,18 @@ const spawnBot = () => {
       gameSettings[chatId]?.round &&
       gameSettings[chatId]?.round >= 2
     ) {
-      if (generate_image_state) {
-        if (text === "Yes") {
-          await bot.sendMessage(chatId, `Great. generating the image...`);
-          const imageGenetate = await generateImageResponse(image_promt);
-          await bot.sendPhoto(chatId, imageGenetate.data[0].url);
-        }
+      if (gameSettings[chatId].round > +gameSettings[chatId].turns) {
+        await bot.sendMessage(chatId, "Game finished.");
+        return;
       }
 
+      gameSettings[chatId].round += 1;
+
       const response = await startGameSession(gameSettings[chatId], text);
+      const imageGenerate = await generateImageResponse(response);
+      await bot.sendPhoto(chatId, imageGenerate.data[0].url);
       await bot.sendMessage(chatId, response);
-      await bot.sendMessage(
-        chatId,
-        "If you want the image of the environment, you must select it.",
-        generateImageOptions
-      );
-      image_promt = response;
-      generate_image_state = true;
+
       return;
     }
   });
