@@ -74,8 +74,6 @@ const startGameSession = async (
     if (!thread || !assistant) {
       return "rofl";
     }
-    console.log("********Hello there********");
-    console.log("Total rounds", gameSettings.turns);
     await openai.beta.threads.messages.create(thread.id, {
       role: "assistant",
       content: `Round ${gameSettings.round}`,
@@ -93,14 +91,11 @@ const startGameSession = async (
 
 async function generateImageResponse(prompt) {
   const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
-  console.log("~~~~~~~~~~~~");
-  console.log(prompt);
-  console.log("~~~~~~~~~~~~");
   const response = await openai.images.generate({
     model: "dall-e-2",
     prompt,
     n: 1,
-    size: "512x512",
+    size: "256x256",
   });
   return response;
 }

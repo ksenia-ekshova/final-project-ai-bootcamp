@@ -32,20 +32,18 @@ const LANGUAGES = [
   "Kazakh",
 ];
 
-const gameInstructions = `
-    How to Play,\n\n
-    1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n
-    2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying game. Think about the situation and decide how your character would react.\n
-    3. Respond: Type out your response as if you were your character. What would you say? What action would you take? Be creative!\n
-    4. Discuss and Build: Read other players\' responses and have fun!
-    5. Collaborate: Work together to solve problems\n
-    6. New Adventures: When a scenario wraps up, the bot will ask if you\'re ready for a new one.
-    \n\n
-    Tips
-    \n\n
-    1. Be Imaginative: Let your creativity shine! The more unique the response, the more fun the game will be.\n
-    2. Respect Others: Be kind and consider how your actions affect other players\' characters.\n
-    3. Have Fun: It\'s a game! Enjoy the world of Roleplaying games and let the stories unfold.
+const gameInstructions =
+  `How to Play\n\n` +
+  `1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n` +
+  `2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying game. Think about the situation and decide how your character would react.\n` +
+  `3. Respond: Type out your response as if you were your character. What would you say? What action would you take? Be creative!\n` +
+  `4. Discuss and Build: Read other players\' responses and have fun!` +
+  `5. Collaborate: Work together to solve problems\n` +
+  `6. New Adventures: When a scenario wraps up, the bot will ask if you\'re ready for a new one.\n\n` +
+  `Tips \n\n` +
+  `1. Be Imaginative: Let your creativity shine! The more unique the response, the more fun the game will be.\n` +
+  `2. Respect Others: Be kind and consider how your actions affect other players\' characters.\n` +
+  `3. Have Fun: It\'s a game! Enjoy the world of Roleplaying games and let the stories unfold.
 `;
 
 const MAX_TURNS = ["5", "10", "20"];
@@ -87,7 +85,7 @@ const languageOptions = {
 
 const gptOptions = {
   reply_markup: {
-    keyboard: [["GPT-4", "GPT-3"]],
+    keyboard: [["GPT-3 (Cheap & Smart)", "GPT-4 (Expensive & Ultra Smart)"]],
   },
 };
 
@@ -95,6 +93,22 @@ const maxTurnsOptions = {
   reply_markup: {
     keyboard: generateMaxTurnsOptions(),
   },
+};
+
+const extractOptionsFromAIResponse = (response) => {
+  const options = [];
+  const lines = response.split("\n");
+  for (const line of lines) {
+    if (
+      line.startsWith("1.") ||
+      line.startsWith("2.") ||
+      line.startsWith("3.")
+    ) {
+      options.push([line]);
+    }
+  }
+  options.push(["custom answer"]);
+  return options;
 };
 
 module.exports = {
@@ -106,4 +120,5 @@ module.exports = {
   languageOptions,
   maxTurnsOptions,
   gptOptions,
+  extractOptionsFromAIResponse,
 };

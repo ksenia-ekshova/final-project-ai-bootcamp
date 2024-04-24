@@ -10,6 +10,7 @@ const {
   languageOptions,
   genresOptions,
   gameInstructions,
+  extractOptionsFromAIResponse,
 } = require("./utils");
 const { startGameSession, generateImageResponse } = require("./gameSession");
 
@@ -29,7 +30,9 @@ const spawnBot = () => {
       );
       await bot.sendMessage(
         chatId,
-        'Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games. Enter "/instructions" to get the commands needed for playing'
+        `Welcome adventurer! 🎲 Embark on quests in the world of Roleplaying Games.\n` +
+          `Enter "/instructions" to get the commands needed for playing\n` +
+          `Enter "/create" to start the game\n`
       );
     }
 
@@ -39,38 +42,54 @@ const spawnBot = () => {
     }
 
     if (text === "/create") {
-      await bot.sendMessage(chatId, "Choose the game genre:", genresOptions);
+      await bot.sendMessage(chatId, "Choose the AI model:", gptOptions);
       return;
     } //add posibility to create custom answer with free text
 
-    if (GENRES.includes(text)) {
+    if (text === "custom answer") {
+      await bot.sendMessage(chatId, "Waiting for your response...");
+      return;
+    }
+
+    if (text.startsWith("GPT-3") || text.startsWith("GPT-4")) {
       gameSettings[chatId] = {
-        genre: text,
         isGameStarted: true,
         language: "English",
-        gptVersion: "GPT-3",
+        gptVersion: text.substring(0, 5),
         max_chars: "750",
       };
+      await bot.sendMessage(chatId, "Choose the game genre:", genresOptions);
+      return;
+    }
+
+    if (GENRES.includes(text)) {
+      gameSettings[chatId].genre = text;
       await bot.sendMessage(chatId, "The max rounds/turns:", maxTurnsOptions);
       return;
     }
 
     if (MAX_TURNS.includes(text)) {
-      gameSettings[chatId] = { ...gameSettings[chatId], turns: text };
+      gameSettings[chatId].turns = text;
       await bot.sendMessage(chatId, `Great. Preparing the story...`);
       const initialGameSettingResponse = await startGameSession(
         gameSettings[chatId],
         text,
         true
       );
+      await bot.sendMessage(chatId, initialGameSettingResponse);
+      const choices = extractOptionsFromAIResponse(initialGameSettingResponse);
+      await bot.sendMessage(chatId, "Choose the option", {
+        reply_markup: {
+          keyboard: choices,
+        },
+      });
+
       const imageGenerate = await generateImageResponse(
         initialGameSettingResponse
       );
       await bot.sendPhoto(chatId, imageGenerate.data[0].url);
-      await bot.sendMessage(chatId, initialGameSettingResponse);
 
       gameSettings[chatId].round = 2;
-
       return;
     }
 
@@ -87,10 +106,16 @@ const spawnBot = () => {
       gameSettings[chatId].round += 1;
 
       const response = await startGameSession(gameSettings[chatId], text);
+      await bot.sendMessage(chatId, response);
+      const choices = extractOptionsFromAIResponse(response);
+      await bot.sendMessage(chatId, "Choose the option", {
+        reply_markup: {
+          keyboard: choices,
+        },
+      });
+
       const imageGenerate = await generateImageResponse(response);
       await bot.sendPhoto(chatId, imageGenerate.data[0].url);
-      await bot.sendMessage(chatId, response);
-
       return;
     }
   });
