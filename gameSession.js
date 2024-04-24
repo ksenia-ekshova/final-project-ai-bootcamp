@@ -36,13 +36,11 @@ const startGameSession = async (
 ) => {
   // for multiple users add (The game will be played by {2} players, ask them questions in turns. --- optional)
 
-
   //change later to use id of already created assistant
   if (isFirstTurn) {
     assistant = await openai.beta.assistants.create({
       name: "Roleplaying game master",
-      instructions: 
-            `You are the author of an interactive quest in a ${gameSettings.genre} setting. 
+      instructions: `You are the author of an interactive quest in a ${gameSettings.genre} setting. 
             Come up with an interesting story. Your message is a part of the story that forces the player(s) to make a choice.
             The game should consist of a short part (up to ${gameSettings.max_chars} characters) of your story and the options for player actions you propose.
             At the end of each of your messages, ask a question about how the player should act in the current situation. 
@@ -56,6 +54,8 @@ const startGameSession = async (
             If the player chooses a bad answer, player may die and then the game will end.
             Use a speaking style that suits the chosen setting.
             Each time you would be notified with the current turn/round number.
+                Make sure to finish the story within ${gameSettings.turns} rounds.
+                Don't ask the user anything after the game finishes. Just congratulate.
             Communicate with players in ${gameSettings.language} language.
             After the end of the game (due to the death of all players or due to the fact that all turns have ended), invite the player(s) to start again (to do this, they needs to enter and send "/create")`,
       tools: [{ type: "code_interpreter" }],
@@ -63,17 +63,10 @@ const startGameSession = async (
         gameSettings.gptVersion === "GPT-4" ? "gpt-4-turbo" : "gpt-3.5-turbo",
     });
     thread = await openai.beta.threads.create();
-    const message = await openai.beta.threads.messages.create(
-      thread.id,
-      {
-        role: "assistant",
-        content: "Turn 1. Generate the initial story with details about environment and character for the game",
-      },
-      {
-        role: "user",
-        content: "We are ready to start the game.", //add the number of players and names
-      }
-    );
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "assistant",
+      content: "Round 1. Generate the initial story for the game.",
+    });
 
     const response = await handleOpenAiRequest(thread.id, assistant.id);
     return response;
@@ -81,18 +74,15 @@ const startGameSession = async (
     if (!thread || !assistant) {
       return "rofl";
     }
-    console.log("********Hello there********");
-    const message = await openai.beta.threads.messages.create(
-      thread.id,
-      {
-        role: "assistant",
-        content: `Turn or round number ${gameSettings.round}`,
-      },
-      {
-        role: "user",
-        content: userPrompt,
-      }
-    );
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "assistant",
+      content: `Round ${gameSettings.round}`,
+    });
+
+    await openai.beta.threads.messages.create(thread.id, {
+      role: "user",
+      content: userPrompt,
+    });
 
     const response = await handleOpenAiRequest(thread.id, assistant.id);
     return response;
@@ -103,7 +93,7 @@ async function generateImageResponse(prompt) {
   const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
   const response = await openai.images.generate({
     model: "dall-e-2",
-    prompt: prompt,
+    prompt,
     n: 1,
     size: "256x256",
   });
