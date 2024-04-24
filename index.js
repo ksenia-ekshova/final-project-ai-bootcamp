@@ -54,10 +54,15 @@ const spawnBot = () => {
     if (text.startsWith("GPT-3") || text.startsWith("GPT-4")) {
       gameSettings[chatId] = {
         isGameStarted: true,
-        language: "English",
         gptVersion: text.substring(0, 5),
         max_chars: "750",
       };
+      await bot.sendMessage(chatId, "Choose the language:", languageOptions);
+      return;
+    }
+
+    if (LANGUAGES.includes(text)) {
+      gameSettings[chatId].language = text;
       await bot.sendMessage(chatId, "Choose the game genre:", genresOptions);
       return;
     }

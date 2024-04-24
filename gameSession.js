@@ -56,7 +56,7 @@ const startGameSession = async (
             Each time you would be notified with the current turn/round number.
                 Make sure to finish the story within ${gameSettings.turns} rounds.
                 Don't ask the user anything after the game finishes. Just congratulate.
-            Communicate with players in ${gameSettings.language} language.
+            Communicate with players in (${gameSettings.language} language). Each response should be in the same language - ${gameSettings.language}.
             After the end of the game (due to the death of all players or due to the fact that all turns have ended), invite the player(s) to start again (to do this, they needs to enter and send "/create")`,
       tools: [{ type: "code_interpreter" }],
       model:
@@ -92,10 +92,10 @@ const startGameSession = async (
 async function generateImageResponse(prompt) {
   const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
   const response = await openai.images.generate({
-    model: "dall-e-2",
+    model: "dall-e-3",
     prompt,
     n: 1,
-    size: "256x256",
+    size: "1024x1024",
   });
   return response;
 }
