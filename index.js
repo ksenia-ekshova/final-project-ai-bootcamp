@@ -3,8 +3,11 @@ const TelegramApi = require("node-telegram-bot-api");
 
 const {
   MAX_TURNS,
+  LANGUAGES,
   GENRES,
   maxTurnsOptions,
+  gptOptions,
+  languageOptions,
   genresOptions,
   gameInstructions,
 } = require("./utils");

@@ -1,11 +1,12 @@
 const GENRES = [
   "Fantasy",
   "Post-apocalypse",
-  "Cthulhu",
+  "Cthulhu Universe",
   "Dungeons",
   "Noir detective",
   "Adventure",
   "Magic",
+  "School of magic",
   "Sword and Sorcery",
   "Dragons",
   "Medieval",
@@ -19,6 +20,16 @@ const GENRES = [
   "Mythical",
   "Mystical",
   "Riddles",
+  "Romance",
+];
+
+const LANGUAGES = [
+  "Chinese",
+  "English",
+  "Spanish",
+  "Russian",
+  "Japanese",
+  "Kazakh",
 ];
 
 const gameInstructions = `
@@ -34,7 +45,7 @@ const gameInstructions = `
     \n\n
     1. Be Imaginative: Let your creativity shine! The more unique the response, the more fun the game will be.\n
     2. Respect Others: Be kind and consider how your actions affect other players\' characters.\n
-    3. Have Fun: It\'s a game! Enjoy the world of Dungeons & Dragons and let the stories unfold.
+    3. Have Fun: It\'s a game! Enjoy the world of Roleplaying games and let the stories unfold.
 `;
 
 const MAX_TURNS = ["5", "10", "20"];
@@ -47,6 +58,13 @@ const generateGenresOptions = () => {
   return rows;
 };
 
+const generateLanguageOptions = () => {
+  const rows = [];
+  for (let i = 0; i < LANGUAGES.length; i += 3) {
+    rows.push(LANGUAGES.slice(i, i + 3));
+  }
+  return rows;
+};
 const generateMaxTurnsOptions = () => {
   const rows = [];
   for (let i = 0; i < MAX_TURNS.length; i += 3) {
@@ -61,6 +79,18 @@ const genresOptions = {
   },
 };
 
+const languageOptions = {
+  reply_markup: {
+    keyboard: generateLanguageOptions(),
+  },
+};
+
+const gptOptions = {
+  reply_markup: {
+    keyboard: [["GPT-4", "GPT-3"]],
+  },
+};
+
 const maxTurnsOptions = {
   reply_markup: {
     keyboard: generateMaxTurnsOptions(),
@@ -69,8 +99,11 @@ const maxTurnsOptions = {
 
 module.exports = {
   GENRES,
+  LANGUAGES,
   MAX_TURNS,
   gameInstructions,
   genresOptions,
+  languageOptions,
   maxTurnsOptions,
+  gptOptions,
 };
