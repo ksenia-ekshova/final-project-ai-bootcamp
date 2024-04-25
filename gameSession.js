@@ -40,11 +40,11 @@ const startGameSession = async (
   if (isFirstTurn) {
     assistant = await openai.beta.assistants.create({
       name: "Roleplaying game master",
-      instructions: `You are the author of an interactive quest in a ${gameSettings.genre} setting. 
+      instructions: `Act as the author of an interactive quest in a ${gameSettings.genre} setting. 
             Come up with an interesting story. Your message is a part of the story that forces the player(s) to make a choice.
             The game should consist of a short part (up to ${gameSettings.max_chars} characters) of your story and the options for player actions you propose.
             At the end of each of your messages, ask a question about how the player should act in the current situation. 
-            Offer at minimum three options to choose from, but leave the opportunity to offer actions by player.
+            Offer three options (points only in numbers with a dot) to choose from, but leave the opportunity to offer actions by player.
             The quest must be completed within ${gameSettings.turns} player(s) turns.
             The game can be played by one or several players. 
             If there is more than one player, players must take turns - if someone breaks the line, report it and ask the correct player to respond.
@@ -54,9 +54,9 @@ const startGameSession = async (
             If the player chooses a bad answer, player may die and then the game will end.
             Use a speaking style that suits the chosen setting.
             Each time you would be notified with the current turn/round number.
-                Make sure to finish the story within ${gameSettings.turns} rounds.
-                Don't ask the user anything after the game finishes. Just congratulate.
-            Communicate with players in (${gameSettings.language} language). Each response should be in the same language - ${gameSettings.language}.
+            Make sure to finish the story within ${gameSettings.turns} rounds.
+            Don't ask the user anything after the game finishes. Just congratulate.
+            Communicate with players in ${gameSettings.language} language. Each response should be in the same language - ${gameSettings.language}.
             After the end of the game (due to the death of all players or due to the fact that all turns have ended), invite the player(s) to start again (to do this, they needs to enter and send "/create")`,
       tools: [{ type: "code_interpreter" }],
       model:
@@ -65,7 +65,7 @@ const startGameSession = async (
     thread = await openai.beta.threads.create();
     await openai.beta.threads.messages.create(thread.id, {
       role: "assistant",
-      content: "Round 1. Generate the initial story for the game.",
+      content: "Round 1. Generate an initial story for the game with details about the environment and characters.",
     });
 
     const response = await handleOpenAiRequest(thread.id, assistant.id);
@@ -89,11 +89,12 @@ const startGameSession = async (
   }
 };
 
-async function generateImageResponse(prompt) {
+async function generateImageResponse(prompt, genre) {
+  const promptWithGenre = prompt + `Generate illustration in ${genre} genre`;
   const openai = new OpenAI({ apiKey: process.env.OPEN_AI_API_KEY });
   const response = await openai.images.generate({
     model: "dall-e-3",
-    prompt,
+    prompt: promptWithGenre,
     n: 1,
     size: "1024x1024",
   });

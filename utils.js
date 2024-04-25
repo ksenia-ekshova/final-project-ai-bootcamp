@@ -1,9 +1,12 @@
 const GENRES = [
   "Fantasy",
+  "Noir detective",
+  "Dungeons",
+  "Gachimuchi",
+  "Memes",
+  "Kittens",
   "Post-apocalypse",
   "Cthulhu Universe",
-  "Dungeons",
-  "Noir detective",
   "Adventure",
   "Magic",
   "School of magic",
@@ -21,6 +24,8 @@ const GENRES = [
   "Mystical",
   "Riddles",
   "Romance",
+  "Noir detective in the world of Lovecraft",
+  "Anime"
 ];
 
 const LANGUAGES = [
@@ -34,9 +39,9 @@ const LANGUAGES = [
 
 const gameInstructions =
   `How to Play\n\n` +
-  `1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "create" to start the game\n` +
-  `2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying game. Think about the situation and decide how your character would react.\n` +
-  `3. Respond: Type out your response as if you were your character. What would you say? What action would you take? Be creative!\n` +
+  `1. Join the Game: The [Name of the Bot] will be added to your Telegram group chat and enter "/create" to start the game\n` +
+  `2. Scenarios: The bot will present you with short, imaginative scenarios for Roleplaying quest. Think about the situation and decide how your character would react.\n` +
+  `3. Respond: Choose the suggested options or create your own custom answer as if you were your character. What would you say? What action would you take? Be creative!\n` +
   `4. Discuss and Build: Read other players\' responses and have fun!` +
   `5. Collaborate: Work together to solve problems\n` +
   `6. New Adventures: When a scenario wraps up, the bot will ask if you\'re ready for a new one.\n\n` +
@@ -95,6 +100,13 @@ const maxTurnsOptions = {
   },
 };
 
+//feature for the future
+// const playersNumberOptions = {
+//   reply_markup: {
+//     keyboard: [["1", "2","3","4"]],
+//   },
+// };
+
 const extractOptionsFromAIResponse = (response) => {
   const options = [];
   const lines = response.split("\n");
@@ -107,7 +119,7 @@ const extractOptionsFromAIResponse = (response) => {
       options.push([line]);
     }
   }
-  options.push(["custom answer"]);
+  options.push(["Custom answer"]);
   return options;
 };
 
@@ -120,5 +132,6 @@ module.exports = {
   languageOptions,
   maxTurnsOptions,
   gptOptions,
+  //playersNumberOptions,
   extractOptionsFromAIResponse,
 };

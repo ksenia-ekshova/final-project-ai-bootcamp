@@ -90,7 +90,7 @@ const spawnBot = () => {
       });
 
       const imageGenerate = await generateImageResponse(
-        initialGameSettingResponse
+        initialGameSettingResponse, gameSettings[chatId].genre
       );
       await bot.sendPhoto(chatId, imageGenerate.data[0].url);
 
